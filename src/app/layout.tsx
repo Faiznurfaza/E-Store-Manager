@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Head from "@/components/head";
 import Header from "@/components/header";
+import Sidebar from "@/components/sidebar/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
-
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-
-          {children}
+          <main className="flex">
+            <Sidebar />
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>
