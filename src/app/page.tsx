@@ -1,9 +1,3 @@
-
-
 export default function Home() {
-  return (
-    <main>
-      
-    </main>
-  )
+  return <p>Ini Adalah HomePage</p>;
 }

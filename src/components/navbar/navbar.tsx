@@ -6,7 +6,7 @@ import { ModeToggle } from "../ui/toggle-theme";
 import { useDarkMode } from "@/utils/useDarkMode";
 
 export default function Navbar() {
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
 
   return (
     <nav

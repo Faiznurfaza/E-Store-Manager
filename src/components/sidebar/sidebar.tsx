@@ -10,7 +10,7 @@ import {
 import { useDarkMode } from "@/utils/useDarkMode";
 
 export default function Sidebar() {
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
 
   return (
     <aside

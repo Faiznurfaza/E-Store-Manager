@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Head from "@/components/head";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
+import Providers from "@/utils/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
+
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
           <main className="flex">
             <Sidebar />
-            {children}
+            <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
       </body>
