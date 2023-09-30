@@ -1,20 +1,19 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 import getAllProducts from '@/services/products-services';
 import usePagination from '@/hooks/usePagination';
-import { Product } from '@/types/products';
+import { Product } from '@/types';
 
-export function useProductData() {
+export default function usePaginatedProductData() {
   const { page, setPage, limit, handlePageChange} = usePagination();
 
 
   const skip = (page - 1) * limit;
   const { data: initialData, isLoading, isError } = useQuery(["products"], () => getAllProducts());
 
-  const products = initialData?.products.slice(skip, skip + limit) as Product[]
+  const paginatedProducts = initialData?.products.slice(skip, skip + limit) as Product[]
   const totalItems = initialData?.total
 
   const maxPage = Math.ceil(totalItems / limit);
@@ -24,7 +23,7 @@ export function useProductData() {
   }
 
   return {
-    products,
+    paginatedProducts,
     isLoading,
     isError,
     setPage,

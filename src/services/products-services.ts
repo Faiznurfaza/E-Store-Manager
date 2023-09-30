@@ -1,4 +1,3 @@
-import { Product } from "@/types/products";
 import axios from "axios";
 
 export default async function getAllProducts() {

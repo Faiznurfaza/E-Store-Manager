@@ -1,6 +1,6 @@
 "use client";
 
-export default function LoadingTable() {
+export default function ErrorFetchProductsTable() {
   return (
     <div className="rounded-md p-4">
       <div className="overflow-x-auto">
