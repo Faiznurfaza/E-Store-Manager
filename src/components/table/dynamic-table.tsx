@@ -1,30 +1,38 @@
 import { TableProps } from "./dynamic-table.types";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 export default function DynamicTable({ columns, data }: TableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full table-auto border-collapse border">
-        <thead>
-          <tr>
+      <Table className="w-full table-auto border-collapse border">
+        <TableHeader>
+          <TableRow>
             {columns.map((column) => (
-              <th key={column.key} className="px-4 py-2 border-b-2">
+              <TableHead key={column.key} className="px-4 py-2 border-b-2 font-bold text-justify">
                 {column.label}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data.map((row, index) => (
-            <tr key={index} className="text-center">
+            <TableRow key={index}>
               {columns.map((column) => (
-                <td key={column.key} className="px-4 py-2 border-b capitalize">
+                <TableCell key={column.key} className="px-4 py-2 border-b capitalize text-justify">
                   {row[column.key]}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

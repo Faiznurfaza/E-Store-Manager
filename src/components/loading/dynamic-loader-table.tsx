@@ -1,5 +1,15 @@
 import { DynamicLoaderProps } from "./dynamic-loader-types";
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Loader2 } from "lucide-react";
+
 export default function DynamicLoaderTable({
   headers,
   isLoading,
@@ -8,40 +18,54 @@ export default function DynamicLoaderTable({
   return (
     <div className="rounded-md mb-4 p-4 min-w-full">
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border">
-          <thead>
-            <tr>
+        <Table className="w-full table-auto border-collapse border">
+          <TableHeader>
+            <TableRow>
               {headers.map((header, index) => (
-                <th key={index} className="px-4 py-2 border-b-2">
+                <TableHead
+                  key={index}
+                  className="px-4 py-2 border-b-2 font-bold"
+                >
                   {header}
-                </th>
+                </TableHead>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {isLoading ? (
-              <tr>
-                <td className="px-4 py-8 text-center" colSpan={headers.length}>
-                  <div className="text-gray-600">Loading...</div>
-                </td>
-              </tr>
-            ) : isError ? (
-              <tr>
-                <td className="px-4 py-8 text-center" colSpan={headers.length}>
-                  <div className="text-red-500">
-                    Error occurred when fetching data, try again later.
+              <TableRow>
+                <TableCell
+                  className="px-4 py-8 text-justify"
+                  colSpan={headers.length}
+                >
+                  <div className="space-y-2 flex justify-center items-center">
+                    <Loader2 className="animate-spin" />
                   </div>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
+            ) : isError ? (
+              <TableRow>
+                <TableCell
+                  className="px-4 py-8 text-justify"
+                  colSpan={headers.length}
+                >
+                  <div className="text-red-500">
+                    Error occurred when fetching data, Try again later.
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
-              <tr>
-                <td className="px-4 py-8 text-center" colSpan={headers.length}>
+              <TableRow>
+                <TableCell
+                  className="px-4 py-8 text-center"
+                  colSpan={headers.length}
+                >
                   <div className="text-gray-600">No data available.</div>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

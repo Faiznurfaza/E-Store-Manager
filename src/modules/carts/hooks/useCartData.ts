@@ -1,6 +1,6 @@
 'use client'
 
-import usePagination from "@/hooks/usePagination"
+import usePagination from "@/hooks/use-pagination"
 import getAllCarts from "@/services/carts-services"
 import { Cart } from "@/types"
 

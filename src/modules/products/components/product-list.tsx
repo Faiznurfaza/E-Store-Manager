@@ -5,11 +5,15 @@ import React from "react";
 import DynamicLoaderTable from "@/components/loading/dynamic-loader-table";
 import Pagination from "@/components/pagination/pagination";
 import DynamicTable from "@/components/table/dynamic-table";
+import ProductFilters from "./product-filters";
 
-import usePaginatedProductData  from "../hooks/useProductData";
+import useProducts from "../hooks/use-products";
 import useFormatCurrency from "@/utils/useFormatCurrency";
+import useProductFilters from "../hooks/use-products-filters";
 
 export function ProductList() {
+  const filterState = useProductFilters();
+
   const {
     paginatedProducts,
     isLoading,
@@ -19,7 +23,14 @@ export function ProductList() {
     maxPage,
     skip,
     limit,
-  } = usePaginatedProductData();
+    brandList,
+    categoryList,
+  } = useProducts({
+    filteredBrands: filterState.filteredBrands || [],
+    filteredCategories: filterState.filteredCategories || [],
+    minPrice: filterState.minPrice,
+    maxPrice: filterState.maxPrice,
+  });
 
   const columns = [
     { key: "title", label: "Product Name" },
@@ -41,10 +52,26 @@ export function ProductList() {
   const formattedData = paginatedProducts.map((product) => ({
     ...product,
     price: useFormatCurrency(product.price),
-  }))
+  }));
+
+  console.log(formattedData)
 
   return (
     <div className="rounded-md mb-4 p-4 min-w-full">
+      <ProductFilters
+        brandList={brandList}
+        categoryList={categoryList}
+        filteredBrands={null}
+        filteredCategories={null}
+        minPrice={0}
+        maxPrice={0}
+        setFilterList={{
+          brand: [],
+          category: [],
+          minPrice: 0,
+          maxPrice: 0,
+        }}
+      />
       <DynamicTable columns={columns} data={formattedData} />
       <Pagination
         page={page}
@@ -52,7 +79,7 @@ export function ProductList() {
         handlePageChange={handlePageChange}
         skip={skip}
         limit={limit}
-        totalRecords={paginatedProducts.length}
+        totalRecords={formattedData.length}
       />
     </div>
   );
