@@ -13,6 +13,7 @@ import useProductFilters from "../hooks/use-products-filters";
 
 export function ProductList() {
   const filterState = useProductFilters();
+  const formatCurrency = useFormatCurrency
 
   const {
     paginatedProducts,
@@ -51,8 +52,7 @@ export function ProductList() {
 
   const formattedData = paginatedProducts.map((product) => ({
     ...product,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    price: useFormatCurrency(product.price),
+    price: formatCurrency(product.price),
   }));
 
   return (

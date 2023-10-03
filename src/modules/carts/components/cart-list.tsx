@@ -21,6 +21,8 @@ export default function CartList() {
     handlePageChange,
   } = usePaginatedCartData();
 
+  const formatCurrency = useFormatCurrency;
+
   const columns = [
     { key: "id", label: "No" },
     { key: "userId", label: "User" },
@@ -49,10 +51,8 @@ export default function CartList() {
 
   const formattedData = paginatedCarts.map((cart) => ({
     ...cart,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    total: useFormatCurrency(cart.total),
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    discountedTotal: useFormatCurrency(cart.discountedTotal),
+    total: formatCurrency(cart.total),
+    discountedTotal: formatCurrency(cart.discountedTotal),
   }));
 
   return (
