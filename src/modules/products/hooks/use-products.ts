@@ -77,7 +77,7 @@ function useProducts({
 
   useEffect(() => {
     if (!page) setPage(1);
-  }, [totalRecords, page]);
+  }, [totalRecords, page, setPage]);
 
   useEffect(() => {
     if (initialData) {
@@ -91,7 +91,7 @@ function useProducts({
       setTotalRecords(filtered.length);
       setFilteredProducts(filtered.slice(skip, skip + limit));
     }
-  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit]);
+  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit, filterProducts]);
 
   const maxPage = useMemo(() => Math.ceil(totalRecords / limit), [totalRecords, limit]);
 
