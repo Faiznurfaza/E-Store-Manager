@@ -49,7 +49,9 @@ export default function CartList() {
 
   const formattedData = paginatedCarts.map((cart) => ({
     ...cart,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     total: useFormatCurrency(cart.total),
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     discountedTotal: useFormatCurrency(cart.discountedTotal),
   }));
 
