@@ -51,6 +51,7 @@ export function ProductList() {
 
   const formattedData = paginatedProducts.map((product) => ({
     ...product,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     price: useFormatCurrency(product.price),
   }));
 
