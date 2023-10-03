@@ -8,114 +8,99 @@ import usePagination from '@/hooks/use-pagination';
 import { useSearch } from '@/hooks/use-search';
 import { Product } from '@/types';
 
-type filteredProductsTypes = {
+type FilteredProductsTypes = {
   filteredBrands: string[];
   filteredCategories: string[];
   minPrice: number;
   maxPrice: number;
-}
+};
 
-export default function useProducts({
+function useProducts({
   filteredBrands = [],
   filteredCategories = [],
   minPrice,
-  maxPrice
-}: filteredProductsTypes) {
+  maxPrice,
+}: FilteredProductsTypes) {
   const { page, setPage, limit, handlePageChange } = usePagination();
-  const [searchQuery, setSearchQuery] = useSearch("")
-  const [filteredData, setFilteredData] = useState<Product[]>([])
-
+  const [searchQuery, setSearchQuery] = useSearch("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [totalRecords, setTotalRecords] = useState<number>(0);
 
   const skip = (page - 1) * limit;
   const { data: initialData, isLoading, isError } = useQuery(["products"], () => getAllProducts());
 
-  const paginatedProducts = initialData?.products.slice(skip, skip + limit) as Product[]
-  const totalItems = initialData?.total
-
-
-
   const categoryList = useMemo(() => {
     if (initialData && initialData.products) {
-      return [...new Set(initialData.products.map((p: { category: Product['category'] }) => p.category))] as string[]
+      return [...new Set(initialData.products.map((p: { category: Product['category'] }) => p.category))] as string[];
     }
-
-    return []
-  }, [initialData])
+    return [];
+  }, [initialData]);
 
   const brandList = useMemo(() => {
     if (initialData && initialData.products) {
-      return [...new Set(initialData.products.map((p: { brand: Product["brand"] }) => p.brand))] as string[]
+      return [...new Set(initialData.products.map((p: { brand: Product["brand"] }) => p.brand))] as string[];
     }
-
-    return []
-  }, [initialData])
-
-
+    return [];
+  }, [initialData]);
 
   const filterProducts = useCallback(
-    ({
-      search,
-      brands,
-      categories,
-      priceRange
-    }: {
-      search: string;
-      brands: string[];
-      categories: string[];
-      priceRange: [number, number];
-    }) => {
-      if (initialData) {
-        let filteredProducts = initialData?.products.filter((product: Product) =>
-          product.title.toLowerCase().includes(search)
+    ({ search, brands, categories, priceRange }: { search: string; brands: string[]; categories: string[]; priceRange: [number, number] }) => {
+      if (!initialData) return [];
+
+      let filtered = initialData.products.filter((product: Product) =>
+        product.title.toLowerCase().includes(search)
+      );
+
+      if (brands.length > 0 && brands[0] !== "") {
+        filtered = filtered.filter((product: Product) =>
+          brands.includes(product.brand)
         );
-
-        if (brands.length > 0 && brands[0] !== "") {
-          filteredProducts = filteredProducts.filter((product: Product) =>
-            brands.includes(product.brand)
-          );
-        }
-
-        if (categories.length > 0 && categories[0] !== "") {
-          filteredProducts = filteredProducts.filter((product: Product) =>
-            categories.includes(product.category)
-          );
-        }
-
-        if (priceRange[0] >= 0 && priceRange[1] > 0) {
-          filteredProducts = filteredProducts.filter(
-            (product: Product) =>
-              product.price >= priceRange[0] && product.price <= priceRange[1]
-          );
-        }
-
-        return filteredProducts;
       }
 
-      return [];
+      if (categories.length > 0 && categories[0] !== "") {
+        filtered = filtered.filter((product: Product) =>
+          categories.includes(product.category)
+        );
+      }
+
+      if (priceRange[0] >= 0 && priceRange[1] > 0) {
+        filtered = filtered.filter(
+          (product: Product) =>
+            product.price >= priceRange[0] && product.price <= priceRange[1]
+        );
+      }
+
+      return filtered;
     },
-    [initialData, paginatedProducts]
+    [initialData]
   );
 
   useEffect(() => {
+    if (!page) setPage(1);
+  }, [totalRecords, page]);
+
+  useEffect(() => {
     if (initialData) {
-      const filteredProducts = filterProducts({
+      const filtered = filterProducts({
         search: searchQuery,
         brands: filteredBrands,
         categories: filteredCategories,
-        priceRange: [minPrice, maxPrice]
-      })
+        priceRange: [minPrice, maxPrice],
+      });
 
-      setFilteredData(filteredProducts.slice(skip, skip + limit))
+      setTotalRecords(filtered.length);
+      setFilteredProducts(filtered.slice(skip, skip + limit));
     }
-  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit])
+  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit]);
 
-  const maxPage = useMemo(() => Math.ceil(totalItems / limit), [totalItems, limit])
+  const maxPage = useMemo(() => Math.ceil(totalRecords / limit), [totalRecords, limit]);
 
   if (page > maxPage) {
-    setPage(maxPage)
+    setPage(maxPage);
   }
+
   return {
-    paginatedProducts: filteredData,
+    paginatedProducts: filteredProducts,
     isLoading,
     isError,
     setPage,
@@ -126,6 +111,8 @@ export default function useProducts({
     handlePageChange,
     brandList,
     categoryList,
-    searchQuery
+    
   };
 }
+
+export default useProducts;

@@ -6,7 +6,7 @@ import Pagination from "@/components/pagination/pagination";
 import DynamicLoaderTable from "@/components/loading/dynamic-loader-table";
 import DynamicTable from "@/components/table/dynamic-table";
 
-import usePaginatedCartData from "../hooks/useCartData";
+import usePaginatedCartData from "../hooks/use-cart";
 import useFormatCurrency from "@/utils/useFormatCurrency";
 
 export default function CartList() {

@@ -54,23 +54,12 @@ export function ProductList() {
     price: useFormatCurrency(product.price),
   }));
 
-  console.log(formattedData)
-
   return (
     <div className="rounded-md mb-4 p-4 min-w-full">
       <ProductFilters
         brandList={brandList}
         categoryList={categoryList}
-        filteredBrands={null}
-        filteredCategories={null}
-        minPrice={0}
-        maxPrice={0}
-        setFilterList={{
-          brand: [],
-          category: [],
-          minPrice: 0,
-          maxPrice: 0,
-        }}
+        {...filterState}
       />
       <DynamicTable columns={columns} data={formattedData} />
       <Pagination

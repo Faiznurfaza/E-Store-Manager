@@ -1,3 +1,5 @@
+'use client'
+
 import { useQueryStates, parseAsArrayOf, parseAsString, parseAsInteger } from "next-usequerystate"
 
 export default function useProductFilters() {

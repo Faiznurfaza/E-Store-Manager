@@ -6,6 +6,7 @@ import Head from "@/components/head";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
 import Providers from "@/utils/provider";
+import StyledComponentsRegistry from '../lib/AntdRegistry';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,7 @@ export default function RootLayout({
           <Header />
           <main className="flex">
             <Sidebar />
-            <Providers>{children}</Providers>
+            <Providers><StyledComponentsRegistry>{children}</StyledComponentsRegistry></Providers>
           </main>
         </ThemeProvider>
       </body>
