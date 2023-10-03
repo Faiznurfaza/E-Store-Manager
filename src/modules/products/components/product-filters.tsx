@@ -36,28 +36,31 @@ export default function ProductFilters({
 
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedMinPrice, setSelectedMinPrice] = useState<number>(0);
+  const [selectedMaxPrice, setSelectedMaxPrice] = useState<number>(0);
 
   const handleSubmit = () => {
     setFilters({
       brand: selectedBrands || filteredBrands,
       category: selectedCategories || filteredCategories,
-      minPrice: minPrice || 0,
-      maxPrice: maxPrice || 0,
+      minPrice: minPrice || selectedMinPrice,
+      maxPrice: maxPrice || selectedMaxPrice,
     });
   };
 
-  const handleChangeBrands = (
-    value: { value: string; label: React.ReactNode }[]
+  const handleMultiSelectChange = (
+    value: { value: string; label: React.ReactNode }[],
+    setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
   ) => {
     const selectedValues = value.map((item) => item.value);
-    setSelectedBrands(selectedValues);
+    setSelectedValues(selectedValues);
   };
 
-  const handleChangeCategories = (
-    value: { value: string; label: React.ReactNode }[]
+  const handleInputChange = (
+    value: number | null,
+    setSelectedValues: React.Dispatch<React.SetStateAction<number>>
   ) => {
-    const selectedValues = value.map((item) => item.value);
-    setSelectedCategories(selectedValues);
+    setSelectedValues(value || 0);
   };
 
   return (
@@ -87,7 +90,9 @@ export default function ProductFilters({
                 style={{ width: "100%" }}
                 placeholder="Select brands"
                 optionLabelProp="label"
-                onChange={handleChangeBrands}
+                onChange={(value) =>
+                  handleMultiSelectChange(value, setSelectedBrands)
+                }
                 defaultValue={filteredBrands.map((brand) => ({
                   value: brand,
                   label: brand,
@@ -108,7 +113,9 @@ export default function ProductFilters({
                 style={{ width: "100%" }}
                 placeholder="Select category"
                 optionLabelProp="label"
-                onChange={handleChangeCategories}
+                onChange={(value) =>
+                  handleMultiSelectChange(value, setSelectedCategories)
+                }
                 defaultValue={filteredCategories.map((category) => ({
                   value: category,
                   label: category,
@@ -127,9 +134,9 @@ export default function ProductFilters({
                 className="flex items-center justify-between flex-nowrap"
               >
                 <span className="mt-2 mr-1">Price Range</span>
-                <InputNumber min={0} placeholder="$" value={minPrice} />
+                <InputNumber min={0} placeholder="$" value={selectedMinPrice | minPrice} onChange={(value) => handleInputChange(value, setSelectedMinPrice)} />
                 <span>—</span>
-                <InputNumber min={100000} placeholder="$" value={maxPrice} />
+                <InputNumber min={0} placeholder="$" value={selectedMaxPrice | maxPrice} onChange={(value) => handleInputChange(value, setSelectedMaxPrice)}/>
               </Space.Compact>
               <Button variant="outline" onClick={handleSubmit}>
                 Apply Filters
