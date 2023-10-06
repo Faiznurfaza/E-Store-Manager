@@ -1,14 +1,17 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Merriweather_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
-import Head from "@/components/head";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
 import Providers from "@/utils/provider";
-import StyledComponentsRegistry from '../lib/AntdRegistry';
+import StyledComponentsRegistry from "../lib/AntdRegistry";
+import { Toaster, toast } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const merriweather = Merriweather_Sans({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "E-Store Manager",
@@ -22,14 +25,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head />
-
-      <body className={inter.className}>
+      <body className={merriweather.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Toaster />
           <Header />
           <main className="flex">
             <Sidebar />
-            <Providers><StyledComponentsRegistry>{children}</StyledComponentsRegistry></Providers>
+            <Providers>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </Providers>
           </main>
         </ThemeProvider>
       </body>

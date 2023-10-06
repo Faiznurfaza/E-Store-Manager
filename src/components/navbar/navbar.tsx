@@ -10,24 +10,18 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`flex ${
-        isDarkMode
-          ? "bg-gray-900 border-gray-600"
-          : "bg-white text-black border-slate-300"
-      } border-y-2 border-collapse`}
+      className={`flex justify-between items-center py-2 px-4 ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+      } shadow-md`}
     >
-      <ul className="flex items-center justify-between w-full">
-        <li className="py-2 px-6">
-          <Link href="/" passHref legacyBehavior>
-            <a className="flex space-x-2">
-              <IconBrandShopee width={50} height={50} />
-            </a>
-          </Link>
-        </li>
-        <li className="py-2 px-4">
-          <ModeToggle />
-        </li>
-      </ul>
+      <Link href="/" passHref legacyBehavior>
+        <a className="flex items-center space-x-2">
+          <IconBrandShopee width={50} height={50} />
+        </a>
+      </Link>
+      <div className="flex items-center space-x-4">
+        <ModeToggle />
+      </div>
     </nav>
   );
 }

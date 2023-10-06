@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 
-import { InputNumber, Select, Space } from "antd";
+import { Input, InputNumber, Select, Space } from "antd";
 
 import {
   Popover,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 
 import { Button } from "@/components/ui/button";
+import { ListFilter, Search } from "lucide-react";
 
 import useProductFilters from "../hooks/use-products-filters";
 
@@ -32,7 +32,6 @@ export default function ProductFilters({
   minPrice,
   maxPrice,
 }: ProductFiltersProps) {
-  const router = useRouter();
   const { filteredBrands, filteredCategories, setFilters } =
     useProductFilters();
 
@@ -40,6 +39,8 @@ export default function ProductFilters({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMinPrice, setSelectedMinPrice] = useState<number>(0);
   const [selectedMaxPrice, setSelectedMaxPrice] = useState<number>(0);
+
+  const [selectKey, setSelectKey] = useState<number>(0); // state to re-render the component
 
   const handleSubmit = () => {
     setFilters({
@@ -76,109 +77,131 @@ export default function ProductFilters({
     setSelectedCategories([]);
     setSelectedMaxPrice(0);
     setSelectedMinPrice(0);
+    setSelectKey((prevKey) => prevKey + 1);
   };
 
   return (
     <main>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className="rounded-md p-3">
-            Filter
-          </Button>
-        </PopoverTrigger>
-
-        <PopoverContent className="w-100">
-          <div className="grid gap-4">
-            <div className="space-y-2">
-              <h4 className="font-medium leading-none">Filters</h4>
-            </div>
-
-            <Space
-              direction="vertical"
-              size="middle"
-              style={{ display: "flex" }}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center w-1/5">
+          <Search className="mr-2"/>
+          <Input allowClear placeholder="Search a product..." />
+        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="text-white tracking-wider rounded-md px-6 mb-2 bg-blue-500"
             >
-              <Select
-                allowClear
-                labelInValue
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder="Select brands"
-                optionLabelProp="label"
-                onChange={(value) =>
-                  handleMultiSelectChange(value, setSelectedBrands)
-                }
-                defaultValue={filteredBrands.map((brand) => ({
-                  value: brand,
-                  label: brand,
-                }))}
-              >
-                {brandList.map((brand) => (
-                  <Option key={brand} value={brand} label={brand}>
-                    <Space>
-                      <span>{brand}</span>
-                    </Space>
-                  </Option>
-                ))}
-              </Select>
-              <Select
-                allowClear
-                labelInValue
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder="Select category"
-                optionLabelProp="label"
-                onChange={(value) =>
-                  handleMultiSelectChange(value, setSelectedCategories)
-                }
-                defaultValue={filteredCategories.map((category) => ({
-                  value: category,
-                  label: category,
-                }))}
-              >
-                {categoryList.map((category) => (
-                  <Option key={category} value={category} label={category}>
-                    <Space.Compact block>
-                      <span className="capitalize">{category}</span>
-                    </Space.Compact>
-                  </Option>
-                ))}
-              </Select>
-              <Space.Compact
-                block
-                className="flex items-center justify-between flex-nowrap"
-              >
-                <span className="mt-2 mr-1">Price Range</span>
-                <InputNumber
-                  min={0}
-                  placeholder="$"
-                  value={selectedMinPrice || minPrice}
-                  onChange={(value) =>
-                    handleInputChange(value, setSelectedMinPrice)
-                  }
-                />
-                <span>—</span>
-                <InputNumber
-                  min={0}
-                  placeholder="$"
-                  value={selectedMaxPrice || maxPrice}
-                  onChange={(value) =>
-                    handleInputChange(value, setSelectedMaxPrice)
-                  }
-                />
-              </Space.Compact>
-              <div className="flex">
-                <Button variant="outline" onClick={handleSubmit}>
-                  Apply Filters
-                </Button>
-                <Button variant="outline" onClick={handleReset}>
-                  Reset
-                </Button>
+              <span className="mr-2">
+                <ListFilter />
+              </span>
+              Filters
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent className="w-100">
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Filters</h4>
               </div>
-            </Space>
-          </div>
-        </PopoverContent>
-      </Popover>
+
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ display: "flex" }}
+                key={selectKey} // key to re-render the components
+              >
+                <Select
+                  allowClear
+                  labelInValue
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder="Select brands"
+                  optionLabelProp="label"
+                  onChange={(value) =>
+                    handleMultiSelectChange(value, setSelectedBrands)
+                  }
+                  defaultValue={filteredBrands.map((brand) => ({
+                    value: brand,
+                    label: brand,
+                  }))}
+                >
+                  {brandList.map((brand) => (
+                    <Option key={brand} value={brand} label={brand}>
+                      <Space>
+                        <span>{brand}</span>
+                      </Space>
+                    </Option>
+                  ))}
+                </Select>
+                <Select
+                  allowClear
+                  labelInValue
+                  mode="multiple"
+                  style={{ width: "100%" }}
+                  placeholder="Select category"
+                  optionLabelProp="label"
+                  onChange={(value) =>
+                    handleMultiSelectChange(value, setSelectedCategories)
+                  }
+                  defaultValue={filteredCategories.map((category) => ({
+                    value: category,
+                    label: category,
+                  }))}
+                >
+                  {categoryList.map((category) => (
+                    <Option key={category} value={category} label={category}>
+                      <Space.Compact block>
+                        <span className="capitalize">{category}</span>
+                      </Space.Compact>
+                    </Option>
+                  ))}
+                </Select>
+                <Space.Compact
+                  block
+                  className="flex items-center justify-between flex-nowrap"
+                >
+                  <span className="mt-2 mr-1">Price Range</span>
+                  <InputNumber
+                    min={0}
+                    placeholder="$"
+                    value={selectedMinPrice || minPrice}
+                    onChange={(value) =>
+                      handleInputChange(value, setSelectedMinPrice)
+                    }
+                  />
+                  <span>—</span>
+                  <InputNumber
+                    min={0}
+                    placeholder="$"
+                    value={selectedMaxPrice || maxPrice}
+                    onChange={(value) =>
+                      handleInputChange(value, setSelectedMaxPrice)
+                    }
+                  />
+                </Space.Compact>
+                <div className="flex justify-between">
+                  <Button
+                    variant="outline"
+                    className="text-white bg-blue-500"
+                    onClick={handleSubmit}
+                  >
+                    Apply Filters
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="text-white bg-gray-900"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </Space>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
     </main>
   );
 }

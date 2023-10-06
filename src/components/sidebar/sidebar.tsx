@@ -1,69 +1,78 @@
 "use client";
 
-import * as React from "react";
+import React, { ReactNode, useState } from "react";
 import Link from "next/link";
-import {
-  IconShoppingCart,
-  IconBuildingWarehouse,
-  IconLayoutDashboard,
-} from "@tabler/icons-react";
+
+import { LayoutDashboard, PackageSearch, ShoppingCart } from 'lucide-react';
 import { useDarkMode } from "@/utils/useDarkMode";
 
 export default function Sidebar() {
   const { isDarkMode } = useDarkMode();
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  // Function to toggle the sidebar
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
 
   return (
     <aside
-      className={`flex ${
-        isDarkMode
-          ? "bg-gray-900 border-gray-600"
-          : "bg-white text-black border-slate-300 border-collapse"
-      } border-2 p-5 min-h-screen w-3/6 md:w-1/4`}
+      className={`border-r border-t-2 border-inherit ${
+        isDarkMode ? "text-white bg-gray-900" : "text-black bg-white"
+      } p-5 min-h-screen w-3/6 md:w-1/4 ${
+        showSidebar ? "lg:w-2/3 xl:w-2/3" : "" // Expand the width when active
+      }`}
     >
-      <ul>
-        <li className="mb-6">
-          <Link href="/" passHref legacyBehavior>
-            <a className="flex space-x-4">
-              <IconLayoutDashboard />
-              <span
-                className={`text-md ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                Dashboard
-              </span>
-            </a>
-          </Link>
-        </li>
-        <li className="mb-6">
-          <Link href="/products" passHref legacyBehavior>
-            <a className="flex space-x-4">
-              <IconBuildingWarehouse />
-              <span
-                className={`text-md ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                Products
-              </span>
-            </a>
-          </Link>
-        </li>
-        <li className="mb-6">
-          <Link href="/carts" passHref legacyBehavior>
-            <a className="flex space-x-4">
-              <IconShoppingCart />
-              <span
-                className={`text-md ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                Carts
-              </span>
-            </a>
-          </Link>
-        </li>
+      <div className="mb-4 lg:hidden cursor-pointer" onClick={toggleSidebar}>
+        ☰
+      </div>
+      <ul className={`space-y-6 ${showSidebar ? "" : "hidden"} lg:block`}>
+        <SidebarItem
+          href="/"
+          icon={<LayoutDashboard />}
+          label="Dashboard"
+          isDarkMode={isDarkMode}
+        />
+        <SidebarItem
+          href="/products"
+          icon={<PackageSearch />}
+          label="Products"
+          isDarkMode={isDarkMode}
+        />
+        <SidebarItem
+          href="/carts"
+          icon={<ShoppingCart />}
+          label="Carts"
+          isDarkMode={isDarkMode}
+        />
       </ul>
     </aside>
+  );
+}
+
+function SidebarItem({
+  href,
+  icon,
+  label,
+  isDarkMode,
+}: {
+  href: string;
+  icon: ReactNode;
+  label: string;
+  isDarkMode: boolean;
+}) {
+  return (
+    <li>
+      <Link href={href} passHref legacyBehavior>
+        <a className="flex items-center space-x-4">
+          {icon}
+          <span
+            className={`text-md ${isDarkMode ? "text-white" : "text-black"}`}
+          >
+            {label}
+          </span>
+        </a>
+      </Link>
+    </li>
   );
 }
