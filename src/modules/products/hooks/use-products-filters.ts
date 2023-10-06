@@ -2,16 +2,16 @@
 
 import { useQueryStates, parseAsArrayOf, parseAsString, parseAsInteger } from "next-usequerystate"
 
-export default function useProductFilters() {
+export function useProductFilters() {
     const [filters, setFilters] = useQueryStates({
         brand: parseAsArrayOf(parseAsString).withDefault([]),
         category: parseAsArrayOf(parseAsString).withDefault([]),
         minPrice: parseAsInteger.withDefault(0),
         maxPrice: parseAsInteger.withDefault(0)
     },
-    {
-        history: 'push'
-    })
+        {
+            history: 'push'
+        })
 
     return {
         filteredBrands: filters.brand,

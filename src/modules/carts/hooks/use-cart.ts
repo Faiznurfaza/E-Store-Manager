@@ -1,12 +1,14 @@
 'use client'
 
+import { useEffect, useState } from "react"
 import usePagination from "@/hooks/use-pagination"
-import getAllCarts from "@/services/carts-services"
-import { Cart } from "@/types"
+import { getAllCarts, getCartById } from "@/services/carts-services"
+import { Cart, CartProduct } from "@/types"
 
 import { useQuery } from "@tanstack/react-query"
 
-export default function usePaginatedCartData() {
+
+export function useCarts() {
     const { page, setPage, limit, handlePageChange } = usePagination()
 
     const skip = (page - 1) * limit
@@ -24,4 +26,16 @@ export default function usePaginatedCartData() {
     return {
         paginatedCarts, isLoading, isError, setPage, page, limit, maxPage, skip, handlePageChange
     }
+}
+
+export function useOneCart(id: number) {
+    const { data: initialData, isLoading, isError } = useQuery(['cart', id], () => getCartById(id))
+
+    const [products, setProducts] = useState<CartProduct[]>([])
+
+    useEffect(() => {
+        setProducts(initialData?.products)
+    }, [initialData])
+
+    return { data: initialData, products, isLoading, isError }
 }

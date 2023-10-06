@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 export default function DynamicTable({ columns, data }: TableProps) {
   return (
@@ -25,7 +26,7 @@ export default function DynamicTable({ columns, data }: TableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             data.map((row, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
@@ -33,7 +34,11 @@ export default function DynamicTable({ columns, data }: TableProps) {
                     key={column.key}
                     className="px-4 py-2 border-b capitalize text-left"
                   >
-                    {row[column.key]}
+                    {column.key === "actions" ? (
+                      <Link href={`carts/${row.id}`}>Details</Link>
+                    ) : (
+                      row[column.key]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

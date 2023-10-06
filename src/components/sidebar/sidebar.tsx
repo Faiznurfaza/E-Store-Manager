@@ -4,7 +4,7 @@ import React, { ReactNode, useState } from "react";
 import Link from "next/link";
 
 import { LayoutDashboard, PackageSearch, ShoppingCart } from 'lucide-react';
-import { useDarkMode } from "@/utils/useDarkMode";
+import { useDarkMode } from "@/utils/use-darkmode";
 
 export default function Sidebar() {
   const { isDarkMode } = useDarkMode();

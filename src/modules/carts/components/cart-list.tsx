@@ -6,8 +6,8 @@ import Pagination from "@/components/pagination/pagination";
 import DynamicLoaderTable from "@/components/loading/dynamic-loader-table";
 import DynamicTable from "@/components/table/dynamic-table";
 
-import usePaginatedCartData from "../hooks/use-cart";
-import useFormatCurrency from "@/utils/useFormatCurrency";
+import { useCarts } from "../hooks/use-cart";
+import { useFormatCurrency, useFormatPercentage } from "@/utils/use-format";
 
 export default function CartList() {
   const {
@@ -19,7 +19,7 @@ export default function CartList() {
     maxPage,
     skip,
     handlePageChange,
-  } = usePaginatedCartData();
+  } = useCarts();
 
   const formatCurrency = useFormatCurrency;
 
@@ -30,6 +30,7 @@ export default function CartList() {
     { key: "totalQuantity", label: "Total Quantity" },
     { key: "total", label: "Total Price" },
     { key: "discountedTotal", label: "Discounted Total" },
+    { key: "actions", label: "Actions" },
   ];
 
   if (isLoading || isError) {
@@ -42,6 +43,7 @@ export default function CartList() {
           "Total Quantity",
           "Total Price",
           "Discounted Total",
+          "Actions",
         ]}
         isLoading={isLoading}
         isError={isError}

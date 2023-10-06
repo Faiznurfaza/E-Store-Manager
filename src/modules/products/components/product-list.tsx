@@ -8,8 +8,8 @@ import DynamicTable from "@/components/table/dynamic-table";
 import ProductFilters from "./product-filters";
 
 import useProducts from "../hooks/use-products";
-import useFormatCurrency from "@/utils/useFormatCurrency";
-import useProductFilters from "../hooks/use-products-filters";
+import { useFormatCurrency } from "@/utils/use-format";
+import { useProductFilters } from "../hooks/use-products-filters";
 
 export function ProductList() {
   const filterState = useProductFilters();

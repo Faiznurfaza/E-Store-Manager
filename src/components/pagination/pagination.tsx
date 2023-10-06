@@ -3,7 +3,7 @@
 import { PaginationProps } from "./pagination.types";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import { useDarkMode } from "@/utils/useDarkMode";
+import { useDarkMode } from "@/utils/use-darkmode";
 import { PaginationStyles } from "./pagination-styles";
 
 export default function Pagination({

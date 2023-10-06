@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { IconBrandShopee } from "@tabler/icons-react";
 import { ModeToggle } from "../ui/toggle-theme";
-import { useDarkMode } from "@/utils/useDarkMode";
+import { useDarkMode } from "@/utils/use-darkmode";
 
 export default function Navbar() {
   const { isDarkMode } = useDarkMode();
 
   return (
     <nav
-      className={`flex justify-between items-center py-2 px-4 ${
+      className={`flex justify-between items-center py-2 px-4 min-w-[600px] ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
       } shadow-md`}
     >
