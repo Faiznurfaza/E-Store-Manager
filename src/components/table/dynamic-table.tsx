@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 export default function DynamicTable({ columns, data }: TableProps) {
   return (
@@ -15,22 +15,39 @@ export default function DynamicTable({ columns, data }: TableProps) {
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
-              <TableHead key={column.key} className="px-4 py-2 border-b-2 font-bold text-justify">
+              <TableHead
+                key={column.key}
+                className="px-4 py-2 border-b-2 font-bold text-left"
+              >
                 {column.label}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((row, index) => (
-            <TableRow key={index}>
-              {columns.map((column) => (
-                <TableCell key={column.key} className="px-4 py-2 border-b capitalize text-justify">
-                  {row[column.key]}
-                </TableCell>
-              ))}
+          {data.length > 0 ? (
+            data.map((row, index) => (
+              <TableRow key={index}>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.key}
+                    className="px-4 py-2 border-b capitalize text-left"
+                  >
+                    {row[column.key]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="px-4 py-2 text-center"
+              >
+                No data
+              </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </div>

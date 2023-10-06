@@ -13,7 +13,7 @@ import useProductFilters from "../hooks/use-products-filters";
 
 export function ProductList() {
   const filterState = useProductFilters();
-  const formatCurrency = useFormatCurrency
+  const formatCurrency = useFormatCurrency;
 
   const {
     paginatedProducts,
@@ -40,15 +40,6 @@ export function ProductList() {
     { key: "stock", label: "Stock" },
     { key: "category", label: "Category" },
   ];
-  if (isLoading || isError) {
-    return (
-      <DynamicLoaderTable
-        headers={["Product Name", "Brand", "Price", "Stock", "Category"]}
-        isLoading={isLoading}
-        isError={isError}
-      />
-    );
-  }
 
   const formattedData = paginatedProducts.map((product) => ({
     ...product,
@@ -56,21 +47,32 @@ export function ProductList() {
   }));
 
   return (
-    <div className="rounded-md mb-4 p-4 min-w-full">
+    <div className="rounded-md p-4 min-w-full">
       <ProductFilters
         brandList={brandList}
         categoryList={categoryList}
         {...filterState}
       />
-      <DynamicTable columns={columns} data={formattedData} />
-      <Pagination
-        page={page}
-        maxPage={maxPage}
-        handlePageChange={handlePageChange}
-        skip={skip}
-        limit={limit}
-        totalRecords={formattedData.length}
-      />
+
+      {isLoading || isError ? (
+        <DynamicLoaderTable
+          headers={["Product Name", "Brand", "Price", "Stock", "Category"]}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      ) : (
+        <div>
+          <DynamicTable columns={columns} data={formattedData} />
+          <Pagination
+            page={page}
+            maxPage={maxPage}
+            handlePageChange={handlePageChange}
+            skip={skip}
+            limit={limit}
+            totalRecords={formattedData.length}
+          />
+        </div>
+      )}
     </div>
   );
 }

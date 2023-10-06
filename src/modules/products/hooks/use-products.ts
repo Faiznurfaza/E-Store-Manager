@@ -1,5 +1,3 @@
-'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import React, { useMemo, useCallback, useEffect, useState } from 'react';
 
@@ -47,37 +45,15 @@ function useProducts({
     ({ search, brands, categories, priceRange }: { search: string; brands: string[]; categories: string[]; priceRange: [number, number] }) => {
       if (!initialData) return [];
 
-      let filtered = initialData.products.filter((product: Product) =>
-        product.title.toLowerCase().includes(search)
+      return initialData.products.filter((product: Product) =>
+        product.title.toLowerCase().includes(search) &&
+        (brands.length === 0 || brands.includes(product.brand)) &&
+        (categories.length === 0 || categories.includes(product.category)) &&
+        (priceRange[0] < 0 || priceRange[1] <= 0 || (product.price >= priceRange[0] && product.price <= priceRange[1]))
       );
-
-      if (brands.length > 0 && brands[0] !== "") {
-        filtered = filtered.filter((product: Product) =>
-          brands.includes(product.brand)
-        );
-      }
-
-      if (categories.length > 0 && categories[0] !== "") {
-        filtered = filtered.filter((product: Product) =>
-          categories.includes(product.category)
-        );
-      }
-
-      if (priceRange[0] >= 0 && priceRange[1] > 0) {
-        filtered = filtered.filter(
-          (product: Product) =>
-            product.price >= priceRange[0] && product.price <= priceRange[1]
-        );
-      }
-
-      return filtered;
     },
     [initialData]
   );
-
-  useEffect(() => {
-    if (!page) setPage(1);
-  }, [totalRecords, page, setPage]);
 
   useEffect(() => {
     if (initialData) {
@@ -91,7 +67,9 @@ function useProducts({
       setTotalRecords(filtered.length);
       setFilteredProducts(filtered.slice(skip, skip + limit));
     }
-  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit, filterProducts]);
+
+    if (!page) setPage(1);
+  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit, filterProducts, page, setPage]);
 
   const maxPage = useMemo(() => Math.ceil(totalRecords / limit), [totalRecords, limit]);
 
@@ -111,7 +89,7 @@ function useProducts({
     handlePageChange,
     brandList,
     categoryList,
-    
+
   };
 }
 

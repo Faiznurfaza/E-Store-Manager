@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { InputNumber, Select, Space } from "antd";
 
@@ -31,6 +32,7 @@ export default function ProductFilters({
   minPrice,
   maxPrice,
 }: ProductFiltersProps) {
+  const router = useRouter();
   const { filteredBrands, filteredCategories, setFilters } =
     useProductFilters();
 
@@ -61,6 +63,19 @@ export default function ProductFilters({
     setSelectedValues: React.Dispatch<React.SetStateAction<number>>
   ) => {
     setSelectedValues(value || 0);
+  };
+
+  const handleReset = () => {
+    setFilters({
+      brand: null,
+      category: null,
+      minPrice: null,
+      maxPrice: null,
+    });
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    setSelectedMaxPrice(0);
+    setSelectedMinPrice(0);
   };
 
   return (
@@ -134,13 +149,32 @@ export default function ProductFilters({
                 className="flex items-center justify-between flex-nowrap"
               >
                 <span className="mt-2 mr-1">Price Range</span>
-                <InputNumber min={0} placeholder="$" value={selectedMinPrice | minPrice} onChange={(value) => handleInputChange(value, setSelectedMinPrice)} />
+                <InputNumber
+                  min={0}
+                  placeholder="$"
+                  value={selectedMinPrice || minPrice}
+                  onChange={(value) =>
+                    handleInputChange(value, setSelectedMinPrice)
+                  }
+                />
                 <span>—</span>
-                <InputNumber min={0} placeholder="$" value={selectedMaxPrice | maxPrice} onChange={(value) => handleInputChange(value, setSelectedMaxPrice)}/>
+                <InputNumber
+                  min={0}
+                  placeholder="$"
+                  value={selectedMaxPrice || maxPrice}
+                  onChange={(value) =>
+                    handleInputChange(value, setSelectedMaxPrice)
+                  }
+                />
               </Space.Compact>
-              <Button variant="outline" onClick={handleSubmit}>
-                Apply Filters
-              </Button>
+              <div className="flex">
+                <Button variant="outline" onClick={handleSubmit}>
+                  Apply Filters
+                </Button>
+                <Button variant="outline" onClick={handleReset}>
+                  Reset
+                </Button>
+              </div>
             </Space>
           </div>
         </PopoverContent>
