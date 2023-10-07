@@ -11,12 +11,14 @@ import { MoveLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DynamicLoaderTable from "@/components/loading/dynamic-loader-table";
 import DynamicTable from "@/components/table/dynamic-table";
+import { CartDetailsStyles } from "../styles/cart-details.styles";
 
 export function CartDetails({ id }: { id: number }) {
   const router = useRouter();
   const { data, products, isLoading, isError } = useOneCart(id);
 
-  const formattedData = TransformCartProductsData(products)
+  const formattedData = TransformCartProductsData(products);
+  const cardStyles = CartDetailsStyles()
 
   const columns = [
     { key: "title", label: "Product Name" },
@@ -52,7 +54,6 @@ export function CartDetails({ id }: { id: number }) {
       day: "numeric",
     });
 
-
   return (
     <main className="mt-2 ml-4">
       <Button variant="outline" className="mb-8" onClick={() => router.back()}>
@@ -61,7 +62,12 @@ export function CartDetails({ id }: { id: number }) {
       <h2 className="text-3xl font-semibold mb-4 ml-2">Cart {data.id}</h2>
       <div className="flex">
         <Space direction="horizontal" wrap={true} align="center" size={32}>
-          <Card title="Details" style={{ width: 450 }} className="bg-gray-100">
+          <Card
+            title="Details"
+            headStyle={cardStyles.Head}
+            style={cardStyles.Body}
+            className={cardStyles.Content}
+          >
             <div className="grid grid-cols-2 gap-4 text-justify">
               <div className="col-span-1">
                 <p className="mb-2 ">User</p>

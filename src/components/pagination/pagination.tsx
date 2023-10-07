@@ -13,44 +13,39 @@ export default function Pagination({
   limit,
   totalRecords,
 }: PaginationProps) {
-  const {
-    PaginationContainer,
-    PaginationText,
-    PaginationPrevButton,
-    PaginationNextButton,
-  } = PaginationStyles(page, maxPage);
+  const paginationStyles = PaginationStyles(page, maxPage);
 
   return (
-    <div className={PaginationContainer}>
+    <div className={paginationStyles.Container}>
       {totalRecords === 0 ? (
-        <span className={PaginationText}>No data</span>
+        <span className={paginationStyles.Text}>No data</span>
       ) : (
         <>
-          <span className={PaginationText}>
+          <span className={paginationStyles.Text}>
             {skip + 1} - {Math.min(skip + limit, skip + totalRecords)} of{" "}
             {skip + totalRecords}
           </span>
-          <div className="space-y-2 lg:space-y-0 lg:space-x-2">
+          <div className={paginationStyles.ButtonContainer}>
             <Button
               variant="outline"
-              className={PaginationPrevButton}
+              className={paginationStyles.PrevButton}
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
               aria-label="Previous Page"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className={paginationStyles.Icon} />
             </Button>
-            <span className={PaginationText}>
+            <span className={paginationStyles.Text}>
               Page {page} / {maxPage}
             </span>
             <Button
               variant="outline"
-              className={PaginationNextButton}
+              className={paginationStyles.NextButton}
               onClick={() => handlePageChange(page + 1)}
               disabled={page >= maxPage}
               aria-label="Next Page"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className={paginationStyles.Icon} />
             </Button>
           </div>
         </>
