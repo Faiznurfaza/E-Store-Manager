@@ -16,7 +16,7 @@ export default function DynamicLoaderTable({
   isError,
 }: DynamicLoaderProps) {
   return (
-    <div className="rounded-md mb-4 p-4 min-w-full">
+    <div className="rounded-md mb-4 p-4 max-w-[950px]">
       <div className="overflow-x-auto">
         <Table className="w-full table-auto border-collapse border">
           <TableHeader>
@@ -46,7 +46,7 @@ export default function DynamicLoaderTable({
             ) : isError ? (
               <TableRow>
                 <TableCell
-                  className="px-4 py-8 text-justify"
+                  className="px-4 py-8 text-center"
                   colSpan={headers.length}
                 >
                   <div className="text-red-500">

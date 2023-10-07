@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { Eye } from 'lucide-react';
 
 export default function DynamicTable({ columns, data }: TableProps) {
   return (
@@ -35,7 +36,7 @@ export default function DynamicTable({ columns, data }: TableProps) {
                     className="px-4 py-2 border-b capitalize text-left"
                   >
                     {column.key === "actions" ? (
-                      <Link href={`carts/${row.id}`}>Details</Link>
+                      <Link href={`carts/${row.id}`}><Eye/></Link>
                     ) : (
                       row[column.key]
                     )}
@@ -47,7 +48,7 @@ export default function DynamicTable({ columns, data }: TableProps) {
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className="px-4 py-2 text-center"
+                className="px-4 py-2 text-left"
               >
                 No data
               </TableCell>

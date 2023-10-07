@@ -3,8 +3,7 @@
 import { PaginationProps } from "./pagination.types";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import { useDarkMode } from "@/utils/use-darkmode";
-import { PaginationStyles } from "./pagination-styles";
+import { PaginationStyles } from "./paginations.styles";
 
 export default function Pagination({
   page,
@@ -14,13 +13,12 @@ export default function Pagination({
   limit,
   totalRecords,
 }: PaginationProps) {
-  const { isDarkMode } = useDarkMode();
   const {
     PaginationContainer,
     PaginationText,
     PaginationPrevButton,
     PaginationNextButton,
-  } = PaginationStyles(isDarkMode, page, maxPage);
+  } = PaginationStyles(page, maxPage);
 
   return (
     <div className={PaginationContainer}>

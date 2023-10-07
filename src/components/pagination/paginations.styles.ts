@@ -1,6 +1,8 @@
 import { useMemo } from "react";
+import { useDarkMode } from "@/utils/use-darkmode";
 
-export function PaginationStyles(isDarkMode: boolean, page: number, maxPage: number) {
+export function PaginationStyles(page: number, maxPage: number) {
+    const { isDarkMode } = useDarkMode()
     return useMemo(() => {
         const PaginationContainer = isDarkMode
             ? "flex flex-col lg:flex-row items-center justify-between mt-4 dark:bg-gray-800"

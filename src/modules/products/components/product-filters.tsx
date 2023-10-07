@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ListFilter, Search } from "lucide-react";
 
-import useProductFilters from "../hooks/use-products-filters";
+import { useProductFilters } from "../hooks/use-products-filters";
 
 const { Option } = Select;
 
