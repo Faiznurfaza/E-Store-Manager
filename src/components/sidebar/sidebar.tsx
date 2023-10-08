@@ -17,7 +17,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`border-r border-t-2 border-inherit ${
+      className={`border-r border-t-2 border-inherit max-w-[350px] ${
         isDarkMode ? "text-white bg-gray-900" : "text-black bg-white"
       } p-5 min-h-screen w-3/6 md:w-1/4 ${
         showSidebar ? "lg:w-2/3 xl:w-2/3" : "" // Expand the width when active

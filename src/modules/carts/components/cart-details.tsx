@@ -55,7 +55,7 @@ export function CartDetails({ id }: { id: number }) {
     });
 
   return (
-    <main className="mt-2 ml-4">
+    <main className="rounded-md mb-4 p-4">
       <Button variant="outline" className="mb-8" onClick={() => router.back()}>
         <MoveLeft />
       </Button>
