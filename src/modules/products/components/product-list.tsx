@@ -10,6 +10,8 @@ import ProductFilters from "./product-filters";
 import useProducts from "../hooks/use-products";
 import { useFormatCurrency } from "@/utils/use-format";
 import { useProductFilters } from "../hooks/use-products-filters";
+import { Search } from "lucide-react";
+import { Input } from "antd";
 
 export function ProductList() {
   const filterState = useProductFilters();
@@ -26,6 +28,7 @@ export function ProductList() {
     limit,
     brandList,
     categoryList,
+    setSearchQuery,
   } = useProducts({
     filteredBrands: filterState.filteredBrands || [],
     filteredCategories: filterState.filteredCategories || [],
@@ -48,11 +51,23 @@ export function ProductList() {
 
   return (
     <div className="rounded-md p-4 min-w-full">
-      <ProductFilters
-        brandList={brandList}
-        categoryList={categoryList}
-        {...filterState}
-      />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center w-1/5">
+          <Search className="mr-2" />
+          <Input
+            allowClear
+            placeholder="Search..."
+            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+          />
+        </div>
+        <div className="ml-2">
+          <ProductFilters
+            brandList={brandList}
+            categoryList={categoryList}
+            {...filterState}
+          />
+        </div>
+      </div>
 
       {isLoading || isError ? (
         <DynamicLoaderTable

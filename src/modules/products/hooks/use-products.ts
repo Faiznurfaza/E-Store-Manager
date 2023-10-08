@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useMemo, useCallback, useEffect, useState } from 'react';
+import { useMemo, useCallback, useEffect, useState } from 'react';
 
 import getAllProducts from '@/services/products-services';
 import usePagination from '@/hooks/use-pagination';
@@ -89,7 +89,7 @@ function useProducts({
     handlePageChange,
     brandList,
     categoryList,
-
+    setSearchQuery
   };
 }
 

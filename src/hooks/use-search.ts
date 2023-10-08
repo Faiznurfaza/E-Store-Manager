@@ -11,11 +11,11 @@ export function useSearch(value: string): [string, (v: string) => void] {
 
         })
         .withDefault(""))
-    const [debouncedValue] = useDebounce(search || value, 1000);
+    const [debouncedValue] = useDebounce(search || value, 300);
 
     useEffect(() => {
         setSearch(debouncedValue || null);
     }, [debouncedValue, setSearch]);
 
-    return [search, setSearch];
+    return [debouncedValue, setSearch];
 }
