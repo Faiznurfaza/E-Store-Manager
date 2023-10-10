@@ -7,7 +7,7 @@ import Pagination from "@/components/pagination/pagination";
 import DynamicTable from "@/components/table/dynamic-table";
 import ProductFilters from "./product-filters";
 
-import useProducts from "../hooks/use-products";
+import { useProducts } from "../hooks/use-products";
 import { useFormatCurrency } from "@/utils/use-format";
 import { useProductFilters } from "../hooks/use-products-filters";
 import { Search } from "lucide-react";

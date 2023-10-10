@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useCallback, useEffect, useState } from 'react';
 
-import getAllProducts from '@/services/products-services';
+import { getAllProducts } from '@/services/products-services';
 import usePagination from '@/hooks/use-pagination';
 import { useSearch } from '@/hooks/use-search';
 import { Product } from '@/types';
@@ -13,7 +13,7 @@ type FilteredProductsTypes = {
   maxPrice: number;
 };
 
-function useProducts({
+export function useProducts({
   filteredBrands = [],
   filteredCategories = [],
   minPrice,
@@ -92,5 +92,3 @@ function useProducts({
     setSearchQuery
   };
 }
-
-export default useProducts;

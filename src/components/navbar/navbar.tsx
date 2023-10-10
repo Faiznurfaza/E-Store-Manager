@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`flex justify-between items-center py-2 px-4 min-w-[650px] ${
+      className={`flex justify-between items-center py-2 px-4 min-w-[720px] ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
       } shadow-md`}
     >
