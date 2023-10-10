@@ -12,6 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 
 import { useProducts } from "../hooks/use-products";
+import { ChartSkeleton } from "./chart-skeleton";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +24,7 @@ ChartJS.register(
 );
 
 export function BrandChart() {
-  const { brandRecords } = useProducts();
+  const { brandRecords, isLoading, isError } = useProducts();
 
   const options = {
     indexAxis: "y" as const,
@@ -50,9 +51,16 @@ export function BrandChart() {
   };
 
   return (
-    <div style={{ position: "relative", marginBottom: "36px"}}>
-      <Bar options={options} data={data} style={{maxWidth:"600px", height:"800px" }} />
+    <div style={{ position: "relative", marginBottom: "36px" }}>
+      {isLoading || isError ? (
+        <ChartSkeleton name="Brand" />
+      ) : (
+        <Bar
+          options={options}
+          data={data}
+          style={{ maxWidth: "600px", height: "800px" }}
+        />
+      )}
     </div>
   );
 }
-
