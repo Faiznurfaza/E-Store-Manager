@@ -6,7 +6,7 @@ import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
 import Providers from "@/utils/provider";
 import StyledComponentsRegistry from "../lib/AntdRegistry";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 
 const merriweather = Merriweather_Sans({
   subsets: ["latin"],
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={merriweather.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Toaster />
+          <Toaster position="top-right" richColors closeButton />
           <Header />
           <main className="flex">
             <Sidebar />

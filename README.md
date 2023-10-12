@@ -50,3 +50,6 @@ npm run dev
 
 ## Background
 Previously this small projects built with Javascript to fulfill the technical test from some company that i applied for but got rejected, so i decided to perfect it with Typescript and some others cool libraries
+
+## Live Demo
+[E-Store Manager](https://faiznurfaza-estore.vercel.app/)

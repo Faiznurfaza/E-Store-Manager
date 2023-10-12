@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { toast } from 'sonner'
 
 import { Button } from "@/components/ui/button";
 import { ListFilter } from "lucide-react";
@@ -49,6 +50,7 @@ export default function ProductFilters({
       minPrice: minPrice || selectedMinPrice,
       maxPrice: maxPrice || selectedMaxPrice,
     });
+    toast.success('Filters has been applied')
   };
 
   const handleMultiSelectChange = (
@@ -78,6 +80,7 @@ export default function ProductFilters({
     setSelectedMaxPrice(0);
     setSelectedMinPrice(0);
     setSelectKey((prevKey) => prevKey + 1);
+    toast.success('Filters has been reset')
   };
 
   return (
