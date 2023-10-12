@@ -4,6 +4,7 @@ import Link from "next/link";
 import { IconBrandShopee } from "@tabler/icons-react";
 import { ModeToggle } from "../ui/toggle-theme";
 import { useDarkMode } from "@/utils/use-darkmode";
+import { LogOut } from "lucide-react";
 
 export default function Navbar() {
   const { isDarkMode } = useDarkMode();
@@ -21,6 +22,9 @@ export default function Navbar() {
       </Link>
       <div className="flex items-center space-x-4">
         <ModeToggle />
+        <button>
+          <LogOut />
+        </button>
       </div>
     </nav>
   );
