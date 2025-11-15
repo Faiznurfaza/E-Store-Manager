@@ -16,6 +16,9 @@ const merriweather = Merriweather_Sans({
 export const metadata: Metadata = {
   title: "E-Store Manager",
   description: "Manage your e-commerce platform",
+  icons: {
+    icon: "/dashboard.png"
+  }
 };
 
 export default function RootLayout({
