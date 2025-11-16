@@ -80,18 +80,19 @@ export function CartFormDialog({
   const updateProduct = (index: number, field: keyof CartProduct, value: any) => {
     const updated = [...products];
     updated[index] = { ...updated[index], [field]: value };
-    
+
     // Auto-calculate totals
-    const price = updated[index].price;
-    const quantity = updated[index].quantity;
-    const discount = updated[index].discountPercentage;
-    
+    const price = parseFloat(updated[index].price.toString()) || 0;
+    const quantity = parseInt(updated[index].quantity.toString()) || 0;
+    const discount = parseFloat(updated[index].discountPercentage.toString()) || 0;
+
     updated[index].total = price * quantity;
     updated[index].discountedTotal = updated[index].total * (1 - discount / 100);
-    
+
     setProducts(updated);
   };
 
+  console.log('Products:', products);
   useEffect(() => {
     if (mode === "edit" && cart) {
       setUserId(cart.userId.toString());
@@ -104,7 +105,7 @@ export function CartFormDialog({
             quantity: p.quantity,
             total: p.total,
             discountPercentage: p.discountPercentage,
-            discountedTotal: p.discountedPrice,
+            discountedTotal: p.discountedPrice || (p.total * (1 - p.discountPercentage / 100)),
           }))
         );
       } else {
@@ -304,7 +305,7 @@ export function CartFormDialog({
                               </div>
                               {!isExpanded && (
                                 <div className="text-xs text-muted-foreground mt-0.5">
-                                  ${product.discountedTotal} ({product.quantity}x @ ${product.price})
+                                  ${product.discountedTotal.toFixed(2)} ({product.quantity}x @ ${product.price.toFixed(2)})
                                 </div>
                               )}
                             </div>
@@ -406,7 +407,7 @@ export function CartFormDialog({
                                 <Label className="text-xs">Total ($)</Label>
                                 <Input
                                   type="number"
-                                  value={product.total.toFixed(2)}
+                                  value={product.total.toFixed(2) || 0}
                                   disabled
                                   className="h-8 bg-muted"
                                 />
@@ -416,7 +417,7 @@ export function CartFormDialog({
                                 <Label className="text-xs">Discounted Total ($)</Label>
                                 <Input
                                   type="number"
-                                  value={product.discountedTotal}
+                                  value={product.discountedTotal.toFixed(2) || 0}
                                   disabled
                                   className="h-8 bg-muted font-semibold"
                                 />
@@ -430,14 +431,17 @@ export function CartFormDialog({
                 </div>
               )}
 
-              {products.length > 0 && (
+              {products?.length > 0 && (
                 <div className="border-t pt-3 mt-2">
                   <div className="flex justify-between text-sm">
                     <span className="font-semibold">Cart Total:</span>
                     <span className="font-bold">
                       $
                       {products
-                        .reduce((sum, p) => sum + p.discountedTotal, 0)
+                        .reduce(
+                          (sum, p) => sum + (parseFloat(p?.discountedTotal?.toString()) || 0),
+                          0
+                        )
                         .toFixed(2)}
                     </span>
                   </div>
