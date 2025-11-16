@@ -55,7 +55,7 @@ export default function Sidebar() {
             <SidebarItem
               href="/"
               icon={<LayoutDashboard className="w-5 h-5" />}
-              label="Dashboard"
+              label="Overview"
               isDarkMode={isDarkMode}
             />
             <SidebarItem
