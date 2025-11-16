@@ -8,7 +8,7 @@ import { getAllProducts } from '@/services/products-services'
 import { Product } from '@/types'
 
 export function useProducts() {
-    const { data: initialData, isLoading, isError } = useQuery(['products'], () => getAllProducts())
+    const { data: initialData, isLoading, isError } = useQuery(['products'], () => getAllProducts(0, 0))
 
     const [brandRecords, setBrandRecords] = useState<Record<string, number>>({})
     const [categoryRecords, setCategoryRecords] = useState<Record<string, number>>({})
@@ -20,12 +20,16 @@ export function useProducts() {
             let categoryList: Record<string, number> = {};
 
             products.forEach((p: Product) => {
-                if (brandList[p.brand]) brandList[p.brand] = brandList[p.brand] += 1;
-                else brandList[p.brand] = 1;
-
-                if (categoryList[p.category])
-                    categoryList[p.category] = categoryList[p.category] += 1;
-                else categoryList[p.category] = 1;
+                // Only count products with valid brand and category
+                if (p.brand && typeof p.brand === 'string') {
+                    if (brandList[p.brand]) brandList[p.brand] = brandList[p.brand] += 1;
+                    else brandList[p.brand] = 1;
+                }
+                if (p.category && typeof p.category === 'string') {
+                    if (categoryList[p.category])
+                        categoryList[p.category] = categoryList[p.category] += 1;
+                    else categoryList[p.category] = 1;
+                }
             });
 
             setBrandRecords(brandList);

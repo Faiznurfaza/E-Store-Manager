@@ -31,26 +31,21 @@ export default function Sidebar() {
           fixed lg:static inset-y-0 left-0 z-50
           w-64 lg:w-64
           min-h-screen
-          border-r
+          bg-card border-r border-border
           transition-all duration-300 ease-in-out
           ${showSidebar ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-          ${
-            isDarkMode
-              ? "bg-gray-950 border-gray-800"
-              : "bg-white border-gray-200"
-          }
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 lg:p-6 border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}">
-          <h2 className={`text-xl font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+        <div className="flex items-center justify-between p-4 lg:p-6 border-b border-border">
+          <h2 className="text-xl font-semibold">
             E-Store Manager
           </h2>
           <button
             onClick={toggleSidebar}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-accent transition-colors"
           >
-            <X className={`w-5 h-5 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`} />
+            <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
 
@@ -82,16 +77,7 @@ export default function Sidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={toggleSidebar}
-        className={`
-          fixed bottom-6 right-6 lg:hidden z-30
-          p-4 rounded-full shadow-lg
-          transition-all duration-300
-          ${
-            isDarkMode
-              ? "bg-gray-800 text-white hover:bg-gray-700"
-              : "bg-white text-gray-900 hover:bg-gray-100"
-          }
-        `}
+        className="fixed bottom-6 right-6 lg:hidden z-30 p-4 rounded-full shadow-lg bg-blue-500 text-white hover:bg-blue-600 transition-all duration-300"
       >
         <Menu className="w-6 h-6" />
       </button>
@@ -122,12 +108,8 @@ function SidebarItem({
           transition-all duration-200
           ${
             isActive
-              ? isDarkMode
-                ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                : "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
-              : isDarkMode
-              ? "text-gray-400 hover:bg-gray-800 hover:text-white"
-              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-blue-500 text-white shadow-md"
+              : "text-foreground hover:bg-accent hover:text-accent-foreground"
           }
         `}
       >

@@ -26,7 +26,7 @@ export function CartDetails({ id }: { id: number }) {
     { key: "price", label: "Price" },
     { key: "total", label: "Total Price" },
     { key: "discountPercentage", label: "Discount" },
-    { key: "discountedPrice", label: "Discounted Total" },
+    { key: "discountedTotal", label: "Discounted Total" },
   ];
 
   const formattedDate = faker.date
@@ -38,47 +38,44 @@ export function CartDetails({ id }: { id: number }) {
     });
 
   return (
-    <main className="rounded-md mb-4 p-4">
-      <Button variant="outline" className="mb-8" onClick={() => router.back()}>
-        <MoveLeft />
+    <main className="rounded-md mb-4 p-4 md:p-6">
+      <Button variant="outline" className="mb-6 gap-2" onClick={() => router.back()}>
+        <MoveLeft className="w-4 h-4" />
+        <span>Back</span>
       </Button>
       {isLoading || isError ? (
         <CartDetailsSkeleton isLoading={isLoading} isError={isError} />
       ) : (
         <>
-          <h2 className="text-3xl font-semibold mb-4 ml-2">Cart {data?.id}</h2>
-          <div className="flex">
-            <Space direction="horizontal" wrap={true} align="center" size={32}>
-              <Card
-                title="Details"
-                headStyle={cardStyles.Head}
-                style={cardStyles.Body}
-                className={cardStyles.Content}
-              >
-                <div className="grid grid-cols-2 gap-4 text-justify">
-                  <div className="col-span-1">
-                    <p className="mb-2 ">User</p>
-                    <span className="font-semibold">{data?.userId}</span>
-                  </div>
-                  <div className="col-span-1">
-                    <p className="mb-2 ">Added on</p>
-                    <span className="font-semibold">{formattedDate}</span>
-                  </div>
-
-                  <div className="col-span-1">
-                    <p className="mb-2 ">Total Items</p>
-                    <span className="font-semibold">{data?.totalQuantity}</span>
-                  </div>
-                  <div className="col-span-1">
-                    <p className="mb-2 ">Total Price</p>
-                    <span className="font-semibold text-lg">
-                      ${data?.total}
-                    </span>
-                  </div>
+          <h2 className="text-3xl font-bold mb-6">Cart #{data?.id}</h2>
+          <div className="grid gap-6">
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4">Cart Details</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">User ID</p>
+                  <p className="font-semibold text-lg">{data?.userId}</p>
                 </div>
-              </Card>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Added on</p>
+                  <p className="font-semibold">{formattedDate}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Total Items</p>
+                  <p className="font-semibold text-lg">{data?.totalQuantity}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Total Price</p>
+                  <p className="font-bold text-2xl text-blue-500">
+                    ${data?.total}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Cart Items</h3>
               <DynamicTable columns={columns} data={formattedData} />
-            </Space>
+            </div>
           </div>
         </>
       )}

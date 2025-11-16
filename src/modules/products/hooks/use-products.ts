@@ -18,14 +18,22 @@ export function useProducts({
   filteredCategories = [],
   minPrice,
   maxPrice,
-}: FilteredProductsTypes) {
+}: FilteredProductsTypes = { filteredBrands: [], filteredCategories: [], minPrice: 0, maxPrice: 0 }) {
   const { page, setPage, limit, handlePageChange } = usePagination();
   const [searchQuery, setSearchQuery] = useSearch("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>(0);
 
   const skip = (page - 1) * limit;
-  const { data: initialData, isLoading, isError } = useQuery(["products"], () => getAllProducts());
+  
+  // Fetch all products for filtering (client-side filtering)
+  const { data: initialData, isLoading, isError } = useQuery(
+    ["products"], 
+    () => getAllProducts(0, 0),
+    {
+      keepPreviousData: true,
+    }
+  );
 
   const categoryList = useMemo(() => {
     if (initialData && initialData.products) {
@@ -46,7 +54,7 @@ export function useProducts({
       if (!initialData) return [];
 
       return initialData.products.filter((product: Product) =>
-        product.title.toLowerCase().includes(search) &&
+        product.title.toLowerCase().includes(search.toLowerCase()) &&
         (brands.length === 0 || brands.includes(product.brand)) &&
         (categories.length === 0 || categories.includes(product.category)) &&
         (priceRange[0] < 0 || priceRange[1] <= 0 || (product.price >= priceRange[0] && product.price <= priceRange[1]))
@@ -54,6 +62,22 @@ export function useProducts({
     },
     [initialData]
   );
+
+  const categoryRecords = useMemo(() => {
+    if (!initialData) return {};
+    return initialData.products.reduce((acc: Record<string, number>, product: Product) => {
+      acc[product.category] = (acc[product.category] || 0) + 1;
+      return acc;
+    }, {});
+  }, [initialData]);
+
+  const brandRecords = useMemo(() => {
+    if (!initialData) return {};
+    return initialData.products.reduce((acc: Record<string, number>, product: Product) => {
+      acc[product.brand] = (acc[product.brand] || 0) + 1;
+      return acc;
+    }, {});
+  }, [initialData]);
 
   useEffect(() => {
     if (initialData) {
@@ -67,15 +91,19 @@ export function useProducts({
       setTotalRecords(filtered.length);
       setFilteredProducts(filtered.slice(skip, skip + limit));
     }
+  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit, filterProducts]);
 
-    if (!page) setPage(1);
-  }, [initialData, searchQuery, filteredBrands, filteredCategories, minPrice, maxPrice, skip, limit, filterProducts, page, setPage]);
+  const maxPage = useMemo(() => Math.max(1, Math.ceil(totalRecords / limit)), [totalRecords, limit]);
 
-  const maxPage = useMemo(() => Math.ceil(totalRecords / limit), [totalRecords, limit]);
-
-  if (page > maxPage) {
-    setPage(maxPage);
-  }
+  // Prevent invalid page numbers
+  useEffect(() => {
+    if (page > maxPage && maxPage > 0) {
+      setPage(maxPage);
+    }
+    if (page < 1) {
+      setPage(1);
+    }
+  }, [page, maxPage, setPage]);
 
   return {
     paginatedProducts: filteredProducts,
@@ -89,6 +117,8 @@ export function useProducts({
     handlePageChange,
     brandList,
     categoryList,
-    setSearchQuery
+    setSearchQuery,
+    categoryRecords,
+    brandRecords,
   };
 }

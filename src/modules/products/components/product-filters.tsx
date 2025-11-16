@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-
-import { InputNumber, Select, Space } from "antd";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { InputNumber, Select, Space, ConfigProvider, theme } from "antd";
 
 import {
   Popover,
@@ -35,6 +35,8 @@ export default function ProductFilters({
 }: ProductFiltersProps) {
   const { filteredBrands, filteredCategories, setFilters } =
     useProductFilters();
+  const { theme: currentTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -42,6 +44,12 @@ export default function ProductFilters({
   const [selectedMaxPrice, setSelectedMaxPrice] = useState<number>(0);
 
   const [selectKey, setSelectKey] = useState<number>(0); // state to re-render the component
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const handleSubmit = () => {
     setFilters({
@@ -88,28 +96,31 @@ export default function ProductFilters({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            variant="outline"
-            className="text-white tracking-wider rounded-md px-4 py-2 mb-2 bg-blue-500 flex items-center"
+            variant="default"
+            className="bg-blue-500 hover:bg-blue-600 text-white tracking-wider rounded-md px-4 py-2.5 flex items-center gap-2 whitespace-nowrap"
           >
-            <span className="mr-2">
-              <ListFilter />
-            </span>
-            Filters
+            <ListFilter className="w-4 h-4" />
+            <span>Filters</span>
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-100">
-          <div className="grid gap-4">
-            <div className="space-y-2">
-              <h4 className="font-medium leading-none">Filters</h4>
-            </div>
+        <PopoverContent className="w-100 bg-background border">
+          <ConfigProvider
+            theme={{
+              algorithm: currentTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
+            }}
+          >
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Filters</h4>
+              </div>
 
-            <Space
-              direction="vertical"
-              size="middle"
-              style={{ display: "flex" }}
-              key={selectKey} // key to re-render the components
-            >
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ display: "flex" }}
+                key={selectKey} // key to re-render the components
+              >
               <Select
                 allowClear
                 labelInValue
@@ -179,24 +190,23 @@ export default function ProductFilters({
                   }
                 />
               </Space.Compact>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <Button
-                  variant="outline"
-                  className="text-white bg-blue-500"
+                  className="bg-blue-500 hover:bg-blue-600"
                   onClick={handleSubmit}
                 >
                   Apply Filters
                 </Button>
                 <Button
                   variant="outline"
-                  className="text-white bg-gray-900"
                   onClick={handleReset}
                 >
                   Reset
                 </Button>
               </div>
             </Space>
-          </div>
+            </div>
+          </ConfigProvider>
         </PopoverContent>
       </Popover>
     </main>

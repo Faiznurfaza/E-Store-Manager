@@ -16,15 +16,15 @@ export default function DynamicLoaderTable({
   isError,
 }: DynamicLoaderProps) {
   return (
-    <div className="rounded-md mb-4 p-4 max-w-[950px]">
+    <div className="rounded-lg border bg-card mb-4">
       <div className="overflow-x-auto">
-        <Table className="w-full table-auto border-collapse border">
+        <Table className="w-full table-auto">
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-muted/50 hover:bg-muted/50">
               {headers.map((header, index) => (
                 <TableHead
                   key={index}
-                  className="px-4 py-2 border-b-2 font-bold"
+                  className="px-4 py-3 font-semibold text-foreground"
                 >
                   {header}
                 </TableHead>
@@ -35,32 +35,36 @@ export default function DynamicLoaderTable({
             {isLoading ? (
               <TableRow>
                 <TableCell
-                  className="px-4 py-8 text-justify"
+                  className="px-4 py-16 text-center"
                   colSpan={headers.length}
                 >
-                  <div className="space-y-2 flex justify-center items-center">
-                    <Loader2 className="animate-spin" />
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <Loader2 className="animate-spin w-8 h-8 text-blue-500" />
+                    <p className="text-muted-foreground">Loading data...</p>
                   </div>
                 </TableCell>
               </TableRow>
             ) : isError ? (
               <TableRow>
                 <TableCell
-                  className="px-4 py-8 text-center"
+                  className="px-4 py-16 text-center"
                   colSpan={headers.length}
                 >
-                  <div className="text-red-500">
-                    Error occurred when fetching data, Try again later.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <p className="text-destructive font-medium">
+                      Error occurred when fetching data
+                    </p>
+                    <p className="text-muted-foreground text-sm">Please try again later</p>
                   </div>
                 </TableCell>
               </TableRow>
             ) : (
               <TableRow>
                 <TableCell
-                  className="px-4 py-8 text-center"
+                  className="px-4 py-16 text-center"
                   colSpan={headers.length}
                 >
-                  <div className="text-gray-600">No data available.</div>
+                  <p className="text-muted-foreground">No data available</p>
                 </TableCell>
               </TableRow>
             )}

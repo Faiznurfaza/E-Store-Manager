@@ -32,12 +32,14 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Toaster position="top-right" richColors closeButton />
           <Header />
-          <main className="flex">
+          <div className="flex min-h-screen">
             <Sidebar />
-            <Providers>
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            </Providers>
-          </main>
+            <main className="flex-1 overflow-x-hidden">
+              <Providers>
+                <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+              </Providers>
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

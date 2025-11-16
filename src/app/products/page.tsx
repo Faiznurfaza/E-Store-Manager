@@ -3,8 +3,7 @@ import { ProductList } from "@/modules/products/components/product-list";
 
 export default function Products() {
   return (
-    <div className="h-full w-screen">
-      
+    <div className="h-full"> 
       <ProductList />
     </div>
   );

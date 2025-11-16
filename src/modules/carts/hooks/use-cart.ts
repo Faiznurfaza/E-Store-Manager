@@ -12,19 +12,40 @@ export function useCarts() {
     const { page, setPage, limit, handlePageChange } = usePagination()
 
     const skip = (page - 1) * limit
-    const { data: initialData, isLoading, isError } = useQuery(['carts'], () => getAllCarts())
+    const { data: initialData, isLoading, isError } = useQuery(
+        ['carts', skip, limit], 
+        () => getAllCarts(skip, limit),
+        {
+            keepPreviousData: true,
+        }
+    )
 
-    const paginatedCarts = initialData?.carts.slice(skip, skip + limit) as Cart[]
-    const totalItems = initialData?.total
+    const paginatedCarts = initialData?.carts as Cart[] || []
+    const totalItems = initialData?.total || 0
 
-    const maxPage = Math.ceil(totalItems / limit)
+    const maxPage = Math.ceil(totalItems / limit) || 1
 
-    if (page > maxPage) {
-        setPage(maxPage)
-    }
+    // Prevent invalid page numbers
+    useEffect(() => {
+        if (page > maxPage && maxPage > 0) {
+            setPage(maxPage)
+        }
+        if (page < 1) {
+            setPage(1)
+        }
+    }, [page, maxPage, setPage])
 
     return {
-        paginatedCarts, isLoading, isError, setPage, page, limit, maxPage, skip, handlePageChange
+        paginatedCarts, 
+        isLoading, 
+        isError, 
+        setPage, 
+        page, 
+        limit, 
+        maxPage, 
+        skip, 
+        handlePageChange,
+        totalItems
     }
 }
 
