@@ -135,7 +135,7 @@ export function CategoryChart() {
       x: {
         ticks: {
           color: "#374151",
-          font: { size: 12, weight: "500" as const },
+          font: { size: 12 },
           maxRotation: 45,
           minRotation: 45,
         },
@@ -144,10 +144,10 @@ export function CategoryChart() {
       },
       y: {
         ticks: {
-          color: "#6b7280",
+          color: "#374151",
           font: { size: 12 },
         },
-        grid: { display: true, color: "rgba(0, 0, 0, 0.05)" },
+        grid: { display: false },
         border: { display: false },
       },
     },

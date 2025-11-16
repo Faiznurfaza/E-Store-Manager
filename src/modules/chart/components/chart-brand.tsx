@@ -125,7 +125,7 @@ export function BrandChart() {
     scales: {
       x: {
         ticks: {
-          color: "#6b7280",
+          color: "#374151",
           font: { size: 12 },
         },
         grid: { display: false },
@@ -134,7 +134,7 @@ export function BrandChart() {
       y: {
         ticks: {
           color: "#374151",
-          font: { size: 12, weight: "500" as const },
+          font: { size: 12 },
         },
         grid: { display: false },
         border: { display: false },
