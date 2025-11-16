@@ -1,55 +1,68 @@
 # E-Store Manager
 
-<div style="flex items-center justify-center">
-    <img src="https://cdn.icon-icons.com/icons2/2415/PNG/96/typescript_plain_logo_icon_146316.png" alt="Typescript">
-    <img alt="Next JS" src="https://cdn.worldvectorlogo.com/logos/next-js.svg" width="100" height="100">
-    <img alt="React Query" src="https://miro.medium.com/v2/resize:fit:1400/1*elhu-42TzQEdsFjKDbQhhA.png" width="100" height="100">
-    <img alt="Ant Design" src="https://camo.githubusercontent.com/363242675617648bfbedd1610f89ac28df0f9e1bac8749d83109fafdf8524fff/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f4b4470677667754d704766716148506a6963524b2e737667" width="100" height="100">
-    <img alt="Tailwind" src="https://yt3.googleusercontent.com/ikv41jMTr1uHGdILrJhvbfVJcDt4oqhwApKX37TjAleF_cRPbF2W-waj7uMnS5JySvnlvAlTCg=s900-c-k-c0x00ffffff-no-rj" width="100" height="100">
+<div align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Typescript.svg/1200px-Typescript.svg.png" alt="Typescript" width="80" height="80">
+    <img alt="Next JS" src="https://cdn.worldvectorlogo.com/logos/next-js.svg" width="80" height="80">
+    <img alt="React Query" src="https://miro.medium.com/v2/resize:fit:1400/1*elhu-42TzQEdsFjKDbQhhA.png" width="80" height="80">
+    <img alt="Ant Design" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDFMkgc-3Ic_ulT8KOXJCkvQeLLUlgo9TpOg&s" width="80" height="80">
+    <img alt="Tailwind" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png" width="80" height="80">
 </div>
 
+## Overview
 
-E-Store Manager is an E-commerce Dashboard Application where admin can do several things like :
+**E-Store Manager** is a modern E-commerce Dashboard Application for administrators to manage products and carts efficiently. The app provides a user-friendly interface for performing CRUD (Create, Read, Update, Delete) operations on both products and carts.
 
-- View all the listed products in table and chart form
-- View all the listed carts in table form
-- View the details of listed carts
+> **Note:** All data operations are performed on the client side using [DummyJSON](https://dummyjson.com/) as a mock API. No real backend or persistent storage is used.
 
+### Key Features
 
-## Features
+- **Products Management**
 
-- Admin can view all the listed products in table and chart form
-- Admin should be able to filters products based on category, brands and price range 
-- Applied filters is autosaved
-- Admin should be able to search products
-- Carts and Products page has pagination
+  - View all products in table and chart formats
+  - Create, update, and delete products (client-side, via DummyJSON)
+  - Filter products by category, brand, and price range (with auto-saving of filters)
+  - Search products
+  - Pagination for product listings
 
+- **Carts Management**
+  - View all carts in a table
+  - View cart details
+  - Create, update, and delete carts (client-side, via DummyJSON)
+  - Pagination for carts
 
-## Tech Stack
+### Tech Stack
 
-E-Store manager written & built with:
+- **TypeScript**
+- **Next.js**
+- **TanStack Query (React Query)**
+- **Ant Design**
+- **Tailwind CSS**
+- **Shadcn UI**
 
-- Typescript
-- Next JS
-- Tanstack Query / React Query
-- Ant design
-- Tailwind
-- Shadcn UI
+## Getting Started
 
-## Installation
+### Prerequisites
 
-To install the application you need [Node.js](https://nodejs.org/) v10+ to run.
+- [Node.js](https://nodejs.org/) v10 or higher
 
-Install the dependencies and devDependencies and start the server.
+### Installation
 
 ```sh
 cd E-Store-Manager
-npm i
+npm install
 npm run dev
 ```
 
+The application will be available at `http://localhost:3000`.
+
 ## Background
-Previously this small projects built with Javascript to fulfill the technical test from some company that i applied for but got rejected, so i decided to perfect it with Typescript and some others cool libraries
+
+This project was originally built with JavaScript as part of a technical test. It was later rewritten in TypeScript and enhanced with additional libraries and features for better maintainability and user experience.
 
 ## Live Demo
-[E-Store Manager](https://faiznurfaza-estore.vercel.app/)
+
+[faiznurfaza-estore.vercel.app](https://faiznurfaza-estore.vercel.app/)
+
+---
+
+Feel free to contribute or open issues for suggestions and improvements!
