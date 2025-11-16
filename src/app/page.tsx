@@ -1,5 +1,16 @@
-import { BrandChart } from "@/modules/chart/components/chart-brand";
-import { CategoryChart } from "@/modules/chart/components/chart-category";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const BrandChart = dynamic(
+  () => import("@/modules/chart/components/chart-brand").then((mod) => ({ default: mod.BrandChart })),
+  { ssr: false }
+);
+
+const CategoryChart = dynamic(
+  () => import("@/modules/chart/components/chart-category").then((mod) => ({ default: mod.CategoryChart })),
+  { ssr: false }
+);
 
 export default function Home() {
   return (
